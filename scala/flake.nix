@@ -1,4 +1,10 @@
 {
+  description = ''
+    A scala-flavored flake
+  '';
+  # credit: https://zendesk.engineering/using-nix-to-develop-and-package-a-scala-project-cadccd56ad06
+  # for neovim users: https://github.com/scalameta/nvim-metals/pull/97/files
+
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
@@ -10,18 +16,16 @@
     flake-utils,
   }:
     flake-utils.lib.eachDefaultSystem (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs {inherit system;};
+
+      devTools = with pkgs; [
+        sbt
+        ammonite
+        metals
+      ];
     in {
       devShell = pkgs.mkShell {
-        packages = with pkgs; [
-          jdk17
-          ammonite # REPL
-          metals # LSP
-          sbt # build tool
-          scala_3
-          scalafmt
-          scalafix
-        ];
+        packages = devTools;
       };
     });
 }
