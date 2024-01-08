@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'eclipse'
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+compileJava {
+    options.incremental = true
+    options.fork = true
+    options.failOnError = false
+    options.release = 17
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'src'
+        }
+    }
+    test {
+        java {
+            srcDirs 'src'
+        }
+    }
+}
+
+// Enable your dependencies here
+dependencies {
+    // implementation files('dependency')
+    // implementation "junit:junit:4.12"
+}
+
+// Redirect stdout to console
+test {
+    testLogging {
+        showStandardStreams = true
+    }
+}
+
+tasks.withType(JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    enableAssertions = true
+    // // Increase stack size size
+    // jvmArgs += "-Xss1024M"
+}
+
+task RunMe(type: JavaExec) {
+    mainClass = "an.example.class.path"
+}
