@@ -14,6 +14,8 @@
         description = "why3 template for PRGC class";
         path = ./why3;
       };
+
+      typst.path = ./typst;
     };
   };
 }
