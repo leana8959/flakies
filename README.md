@@ -1,7 +1,7 @@
 # Add to your repository
 
 ```bash
-nix registry add flakies git+https://git.earth2077.fr/leana/nix-templates
+nix registry add flakies git+https://git.earth2077.fr/leana/flakies
 ```
 
 # Generate from the templates
