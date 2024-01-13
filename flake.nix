@@ -16,6 +16,8 @@
       };
 
       typst.path = ./typst;
+
+      vanilla.path = ./vanilla;
     };
   };
 }
