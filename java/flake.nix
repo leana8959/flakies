@@ -11,10 +11,11 @@
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
-    in let
+      jdk = pkgs.jdk17;
+
       # modified from https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/development/tools/language-servers/jdt-language-server/default.nix
       jdt-language-server' = let
-        inherit (pkgs) stdenv fetchurl makeWrapper jdk;
+        inherit (pkgs) stdenv fetchurl makeWrapper;
       in
         stdenv.mkDerivation rec {
           pname = "jdtls";
@@ -105,7 +106,8 @@
         };
     in {
       devShell = pkgs.mkShell {
-        packages = with pkgs; [jdk17 gradle_7 jdt-language-server'];
+        packages = with pkgs; [jdk gradle jdt-language-server'];
       };
     });
 }
+
