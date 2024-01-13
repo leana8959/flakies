@@ -22,6 +22,7 @@
       devShells.default = pkgs.mkShell {
         buildInputs = [
           unstable.typst # Get the latest features !
+          pkgs.typst-lsp
         ];
       };
     });
