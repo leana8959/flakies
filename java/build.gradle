@@ -6,7 +6,6 @@ plugins {
 
 repositories {
     mavenCentral()
-    jcenter()
 }
 
 compileJava {
@@ -32,7 +31,7 @@ sourceSets {
 // Enable your dependencies here
 dependencies {
     // implementation files('dependency')
-    // implementation "junit:junit:4.12"
+    implementation "junit:junit:4.12"
 }
 
 // Redirect stdout to console
@@ -42,11 +41,16 @@ test {
     }
 }
 
+application {
+    // Define the main class for the application.
+    mainClass = 'main.App'
+}
+
 tasks.withType(JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     enableAssertions = true
-    // // Increase stack size size
+    // // Increase stack size
     // jvmArgs += "-Xss1024M"
 }
 
