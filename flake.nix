@@ -2,22 +2,40 @@
   description = "Léana's collection of flake templates";
   outputs = {self}: {
     templates = {
-      haskell.path = ./haskell;
+      haskell = {
+        description = "Haskell-flavored flake";
+        path = ./haskell;
+      };
 
-      java.path = ./java;
+      java = {
+        description = "Java jdtls flake";
+        path = ./java;
+      };
 
-      rust.path = ./rust;
+      rust = {
+        description = "Rust flake";
+        path = ./rust;
+      };
 
-      scala.path = ./scala;
+      scala = {
+        description = "Scala Metals flake";
+        path = ./scala;
+      };
 
       why3 = {
-        description = "why3 template for PRGC class";
+        description = "why3 flake for PRGC class";
         path = ./why3;
       };
 
-      typst.path = ./typst;
+      typst = {
+        description = "Typst flake with templates";
+        path = ./typst;
+      };
 
-      vanilla.path = ./vanilla;
+      vanilla = {
+        description = "A simple flake that can be extended";
+        path = ./vanilla;
+      };
     };
   };
 }
