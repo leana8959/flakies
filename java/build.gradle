@@ -11,19 +11,17 @@ repositories {
 compileJava {
     options.incremental = true
     options.fork = true
-    options.failOnError = false
-    options.release = 17
 }
 
 sourceSets {
     main {
         java {
-            srcDirs 'src/main/java/'
+            srcDirs = ['src/main/java/']
         }
     }
     test {
         java {
-            srcDirs 'src/test/java/'
+            srcDirs = ['src/test/java/']
         }
     }
 }
@@ -35,11 +33,7 @@ dependencies {
 }
 
 // Redirect stdout to console
-test {
-    testLogging {
-        showStandardStreams = true
-    }
-}
+test.testLogging.showStandardStreams = true
 
 application {
     // Define the main class for the application.
@@ -50,8 +44,6 @@ tasks.withType(JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     enableAssertions = true
-    // // Increase stack size
-    // jvmArgs += "-Xss1024M"
 }
 
 task RunMe(type: JavaExec) {
