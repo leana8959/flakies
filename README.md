@@ -1,3 +1,12 @@
+## Prerequisites
+Skip this is you already have `nix` and/or `direnv` installed.
+# Install nix
+Follow the guide [here](https://nixos.org/download#)
+
+# Install nix-direnv
+Follow the guide [here](git@github.com:nix-community/nix-direnv.git)
+
+## Use this flake
 # Add to your repository
 
 ```bash
