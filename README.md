@@ -4,7 +4,7 @@ Skip this is you already have `nix` and/or `direnv` installed.
 Follow the guide [here](https://nixos.org/download#)
 
 ## Install nix-direnv
-Follow the guide [here](git@github.com:nix-community/nix-direnv.git)
+Follow the guide [here](https://github.com/nix-community/nix-direnv)
 
 # Use this flake
 ## Add to your repository
