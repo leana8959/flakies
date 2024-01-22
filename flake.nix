@@ -7,6 +7,11 @@
         path = ./haskell;
       };
 
+      c = {
+        description = "Clang flake";
+        path = ./c;
+      };
+
       java = {
         description = "Java jdtls flake";
         path = ./java;
