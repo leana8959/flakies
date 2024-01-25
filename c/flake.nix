@@ -18,12 +18,12 @@
         pkgs = import nixpkgs {inherit system;};
         llvm = pkgs.llvmPackages_16;
       in {
-        devShells.default = pkgs.mkShell rec {
+        devShells.default = pkgs.clangStdenv.mkDerivation rec {
+          name = "Clang shell";
           CPATH = pkgs.lib.makeSearchPathOutput "dev" "include" buildInputs;
           nativeBuildInputs = [
             pkgs.gnumake
             pkgs.clang-tools # fix headers not found
-            pkgs.clang
             # # debugger
             # llvm.lldb
             # pkgs.gdb
