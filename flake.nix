@@ -12,6 +12,11 @@
         path = ./c;
       };
 
+      riscv32 = {
+        description = "RISC-V gcc";
+        path = ./riscv32;
+      };
+
       java = {
         description = "Java jdtls flake";
         path = ./java;
