@@ -23,6 +23,7 @@
         pkgs.typst-lsp
         pkgs.sioyek
         pkgs.ghostscript
+        pkgs.typstfmt
       ];
       fonts = with pkgs; [
         (nerdfonts.override {fonts = ["CascadiaCode" "JetBrainsMono" "Meslo"];})
