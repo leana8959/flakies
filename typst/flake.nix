@@ -22,6 +22,7 @@
         unstable.typst # Get the latest features !
         pkgs.typst-lsp
         pkgs.sioyek
+        pkgs.ghostscript
       ];
       fonts = with pkgs; [
         (nerdfonts.override {fonts = ["CascadiaCode" "JetBrainsMono" "Meslo"];})

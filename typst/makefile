@@ -8,3 +8,10 @@ sioyek: compile
 skim: compile
 	open -a /Applications/Skim.app main.pdf
 	typst watch main.typ
+
+fix: compile
+	gs \
+		-o main_patched.pdf \
+		-sDEVICE=pdfwrite \
+		-dPDFSETTINGS=/prepress \
+		main.pdf
