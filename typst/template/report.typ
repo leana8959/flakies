@@ -2,9 +2,9 @@
 #import "@preview/sourcerer:0.2.1":  code
 
 #let conf(
-  title  : none,
-  author : none,
-  lang   : none,
+  title  : "Hello World",
+  author : "Léana CHIANG",
+  lang   : "fr",
   doc
 ) = {
   assert(title != none,  message: "Must set title key")
@@ -15,12 +15,11 @@
   //////////////
   set document(title: title, author: author)
   set page(
-    header: locate(loc => { // {{{
+    header: locate(loc => {
       if loc.page() != 1 {
         set align(right)
         underline(if author != "" [#title - #author] else [#title])
       }
-      // }}}
     }),
     numbering: "1 / 1",
     number-align: right,
@@ -70,5 +69,3 @@
   // Document
   doc
 }
-
-// vim:foldmethod=marker:foldlevel=0
