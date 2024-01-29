@@ -18,12 +18,20 @@
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {inherit system;};
       unstable = import nixunstable {inherit system;};
+      tools = [
+        unstable.typst # Get the latest features !
+        pkgs.typst-lsp
+        pkgs.sioyek
+      ];
+      fonts = with pkgs; [
+        (nerdfonts.override {fonts = ["CascadiaCode" "JetBrainsMono" "Meslo"];})
+        lmodern
+        cascadia-code
+      ];
     in {
       devShells.default = pkgs.mkShell {
-        buildInputs = [
-          unstable.typst # Get the latest features !
-          pkgs.typst-lsp
-        ];
+        buildInputs =
+          tools ++ fonts;
       };
     });
 }
