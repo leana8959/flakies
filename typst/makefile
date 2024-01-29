@@ -1,5 +1,5 @@
 compile:
 	typst compile main.typ
 watch: compile
-	sioyek main.pdf &
+	open -a /Applications/Skim.app main.pdf
 	typst watch main.typ
