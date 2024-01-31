@@ -34,14 +34,16 @@
           ];
         })
         .why3;
-
-      devTools = let
-        ocamlPackages = [alt-ergo why3];
-        tools = with pkgs; [cvc4 z3_4_12 zip];
-      in
-        ocamlPackages ++ tools;
     in {
-      devShell = pkgs.mkShell {packages = devTools;};
       formatter = pkgs.alejandra;
+      devShell = pkgs.mkShell {
+        packages = [
+          alt-ergo
+          why3
+          pkgs.cvc4
+          pkgs.z3_4_12
+          pkgs.zip
+        ];
+      };
     });
 }
