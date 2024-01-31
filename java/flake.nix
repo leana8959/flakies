@@ -107,6 +107,7 @@
     in {
       devShell = pkgs.mkShell {
         packages = with pkgs; [jdk gradle jdt-language-server'];
+        formatter = pkgs.alejandra;
       };
     });
 }

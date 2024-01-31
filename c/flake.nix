@@ -18,6 +18,7 @@
         pkgs = import nixpkgs {inherit system;};
         llvm = pkgs.llvmPackages_16;
       in {
+        formatter = pkgs.alejandra;
         devShells.default = pkgs.clangStdenv.mkDerivation rec {
           name = "Clang shell";
           CPATH = pkgs.lib.makeSearchPathOutput "dev" "include" buildInputs;

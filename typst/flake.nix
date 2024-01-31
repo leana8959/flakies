@@ -31,6 +31,7 @@
         cascadia-code
       ];
     in {
+      formatter = pkgs.alejandra;
       devShells.default = pkgs.mkShell {
         buildInputs =
           tools ++ fonts;

@@ -42,5 +42,6 @@
         ocamlPackages ++ tools;
     in {
       devShell = pkgs.mkShell {packages = devTools;};
+      formatter = pkgs.alejandra;
     });
 }

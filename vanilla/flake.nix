@@ -19,6 +19,7 @@
       pkgs = import nixpkgs {inherit system;};
       unstable = import nixunstable {inherit system;};
     in {
+      formatter = pkgs.alejandra;
       devShells.default = pkgs.mkShell {
         # put your packages here !
         buildInputs = with pkgs; [

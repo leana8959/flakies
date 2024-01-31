@@ -48,6 +48,7 @@
         '';
       };
     in {
+      formatter = pkgs.alejandra;
       devShells.default = pkgs.mkShell {
         buildInputs = devTools;
 

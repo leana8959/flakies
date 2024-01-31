@@ -24,6 +24,7 @@
         metals
       ];
     in {
+      formatter = pkgs.alejandra;
       devShell = pkgs.mkShell {
         packages = devTools;
       };
