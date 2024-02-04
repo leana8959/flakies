@@ -26,7 +26,7 @@
         pkgs.typstfmt
       ];
       fonts = with pkgs; [
-        (nerdfonts.override {fonts = ["CascadiaCode" "JetBrainsMono" "Meslo"];})
+        (nerdfonts.override {fonts = ["Meslo" "Iosevka"];})
         lmodern
         cascadia-code
       ];
