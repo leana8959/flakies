@@ -54,8 +54,7 @@
       "inputs": {
         "alt-ergo-pin": "alt-ergo-pin",
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs",
-        "why3-pin": "why3-pin"
+        "nixpkgs": "nixpkgs"
       }
     },
     "systems": {
@@ -70,22 +69,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
-        "type": "github"
-      }
-    },
-    "why3-pin": {
-      "locked": {
-        "lastModified": 1679341547,
-        "narHash": "sha256-CUQssdSC8TI3yq5pxS/t7C1o3PLxuvWx0sSmHzQM0nU=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "e12230e71628a460bf82a8477242280868efe799",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "e12230e71628a460bf82a8477242280868efe799",
         "type": "github"
       }
     }
