@@ -27,6 +27,14 @@
             pre-commit
             rustPackages.clippy
           ];
+          nativeBuildInputs =
+            if pkgs.stdenv.isDarwin
+            then
+              with darwin; [
+                libiconv
+                apple_sdk.frameworks.Foundation
+              ]
+            else [];
           RUST_SRC_PATH = rustPlatform.rustLibSrc;
         };
     });
