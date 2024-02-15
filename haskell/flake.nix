@@ -50,7 +50,7 @@
     in {
       formatter = pkgs.alejandra;
       devShells.default = pkgs.mkShell {
-        buildInputs = devTools;
+        packages = devTools;
 
         # Make external Nix c libraries like zlib known to GHC, like pkgs.haskell.lib.buildStackProject does
         # https://github.com/NixOS/nixpkgs/blob/d64780ea0e22b5f61cd6012a456869c702a72f20/pkgs/development/haskell-modules/generic-stack-builder.nix#L38

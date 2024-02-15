@@ -22,7 +22,7 @@
       formatter = pkgs.alejandra;
       devShells.default = pkgs.mkShell {
         # put your packages here !
-        buildInputs = with pkgs; [
+        packages = with pkgs; [
         ];
       };
     });
