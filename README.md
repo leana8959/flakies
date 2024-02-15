@@ -17,3 +17,7 @@ nix registry add flakies git+https://git.earth2077.fr/leana/flakies
 ```bash
 nix flake init flakies#[query] # replace query with your module of liking
 ```
+
+Credits:
+- [Sigmanificient](https://github.com/Sigmanificient) for the help with why3
+  template
