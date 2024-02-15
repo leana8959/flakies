@@ -28,8 +28,8 @@
   set text(size: 13pt, lang: lang)
   set page(margin: (x: 40pt, y: 40pt))
 
-  // heading numbering
-  set heading(numbering: "I.1")
+  // // heading numbering
+  // set heading(numbering: "I.1")
 
   // // Trailing numbering
   // show heading: it => [ #it.body #counter(heading).display()\ ]
@@ -53,6 +53,8 @@
     width     : 100%,
     breakable : true,
   )
+
+  show raw.where(block: true): text.with(font: "Iosevka")
 
   ///////////////////////////////////
   // The actual document goes here //
