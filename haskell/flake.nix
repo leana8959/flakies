@@ -1,7 +1,7 @@
 {
   # credit: https://docs.haskellstack.org/en/stable/nix_integration/#using-a-custom-shellnix-file
   description = ''
-    A haskell-flavored flake (change me)
+    A haskell-flavored flake
   '';
 
   inputs = {
