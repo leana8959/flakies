@@ -34,18 +34,32 @@
           config.allowUnfree = true;
         })
         .alt-ergo;
+
+      provers = [
+        alt-ergo
+        pkgs.cvc4
+        pkgs.z3_4_12
+      ];
+
+      why3-wrapped = pkgs.symlinkJoin {
+        name = "why3";
+        paths = [pkgs.why3];
+        # Generate configuration in the store, and wrap why3 with the corresponding option
+        nativeBuildInputs = [pkgs.makeWrapper] ++ provers;
+        postBuild = ''
+          $out/bin/why3 config detect --config=$out/why3.conf
+          wrapProgram $out/bin/why3 --add-flags "--config=$out/why3.conf"
+        '';
+      };
     in {
       formatter = pkgs.alejandra;
       devShell = pkgs.mkShell {
-        packages = [
-          pkgs.why3
-          pkgs.zip
-
-          # Solvers
-          alt-ergo
-          pkgs.cvc4
-          pkgs.z3_4_12
-        ];
+        packages =
+          [
+            pkgs.zip # used for exporting session
+            why3-wrapped
+          ]
+          ++ provers;
       };
     });
 }
