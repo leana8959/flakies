@@ -19,15 +19,6 @@
       pkgs = import nixpkgs {inherit system;};
       unstable = import nixunstable {inherit system;};
 
-      tools = [
-        typst-wrapped
-        # TODO: https://github.com/nvarner/typst-lsp/pull/360
-        # add the same thing for typst-lsp
-        pkgs.typst-lsp
-        pkgs.sioyek
-        pkgs.ghostscript
-        pkgs.typstfmt
-      ];
       fonts = with pkgs; [
         iosevka
         lmodern
@@ -37,6 +28,7 @@
       typst-wrapped = pkgs.symlinkJoin {
         name = "typst";
         paths = [unstable.typst]; # Get the latest features !
+        buildInputs = fonts;
         nativeBuildInputs = [pkgs.makeWrapper];
         postBuild = let
           # Create multiple flags, each points to a fonts folder of a derivation
@@ -48,7 +40,13 @@
     in {
       formatter = pkgs.alejandra;
       devShells.default = pkgs.mkShell {
-        packages = tools ++ fonts;
+        packages = [
+          typst-wrapped
+          pkgs.typst-lsp
+          pkgs.sioyek
+          pkgs.ghostscript
+          pkgs.typstfmt
+        ];
       };
     });
 }
