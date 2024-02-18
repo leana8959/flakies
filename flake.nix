@@ -1,7 +1,7 @@
 {
   description = "Léana's collection of flake templates";
   outputs = {self}: {
-    templates = {
+    templates = rec {
       haskell = {
         description = "Haskell-flavored flake";
         path = ./haskell;
@@ -42,6 +42,7 @@
         path = ./typst;
       };
 
+      default = vanilla;
       vanilla = {
         description = "A simple flake that can be extended";
         path = ./vanilla;
