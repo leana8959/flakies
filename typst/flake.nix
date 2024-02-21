@@ -19,6 +19,16 @@
       pkgs = import nixpkgs {inherit system;};
       unstable = import nixunstable {inherit system;};
 
+      tools = [
+        typst-wrapped
+        # TODO: https://github.com/nvarner/typst-lsp/pull/360
+        # add the same thing for typst-lsp
+        pkgs.typst-lsp
+        pkgs.sioyek
+        pkgs.ghostscript
+        pkgs.typstfmt
+      ];
+
       fonts = with pkgs; [
         iosevka
         lmodern
@@ -39,14 +49,17 @@
       };
     in {
       formatter = pkgs.alejandra;
-      devShells.default = pkgs.mkShell {
-        packages = [
-          typst-wrapped
-          pkgs.typst-lsp
-          pkgs.sioyek
-          pkgs.ghostscript
-          pkgs.typstfmt
-        ];
+
+      devShell = pkgs.mkShell {packages = tools;};
+
+      packages.default = pkgs.stdenvNoCC.mkDerivation {
+        name = throw "Add your package name here";
+        src = ./.;
+        nativeBuildInputs = tools;
+        installPhase = ''
+          mkdir -p $out
+          install main.pdf $out/
+        '';
       };
     });
 }
