@@ -47,9 +47,12 @@
             "
         '';
       };
-    in {
+    in rec {
       formatter = pkgs.alejandra;
-      devShells.default = pkgs.mkShell {
+
+      packages.default = pkgs.haskellPackages.callCabal2nix "simple" ./. {};
+
+      devShells.default = packages.default.env.overrideAttrs {
         packages = devTools;
 
         # Make external Nix c libraries like zlib known to GHC, like pkgs.haskell.lib.buildStackProject does
