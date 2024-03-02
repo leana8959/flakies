@@ -17,16 +17,16 @@
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {inherit system;};
-
-      devTools = with pkgs; [
-        sbt
-        ammonite
-        metals
-      ];
     in {
       formatter = pkgs.alejandra;
+
       devShell = pkgs.mkShell {
-        packages = devTools;
+        packages = with pkgs; [
+          sbt
+          ammonite
+          metals
+          scalafmt
+        ];
       };
     });
 }
