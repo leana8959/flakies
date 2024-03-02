@@ -1,0 +1,38 @@
+name: Build Typst document
+on: [push, workflow_dispatch]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: docker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Typst
+        uses: lvignoli/typst-action@main
+        with:
+          source_file: |
+            main.typ
+
+      - name: Upload PDF file
+        uses: actions/upload-artifact@v3
+        with:
+          name: compiled_PDF
+          path: "*.pdf"
+
+      - name: Get current date
+        id: date
+        run: echo "DATE=$(date +%Y-%m-%d-%Hh%M)" >> $GITHUB_ENV
+
+      - name: Release
+        uses: akkuman/gitea-release-action@v1
+        env:
+          NODE_OPTIONS: '--experimental-fetch' # if nodejs < 18
+        with:
+          name: "${{ env.DATE }}"
+          tag_name: "${{ env.DATE }}"
+          files: |-
+            *.pdf
