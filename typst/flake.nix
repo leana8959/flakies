@@ -50,7 +50,7 @@
     in {
       formatter = pkgs.alejandra;
 
-      devShell = pkgs.mkShell {packages = tools;};
+      devShell = pkgs.mkShellNoCC {packages = tools;};
 
       packages.default = pkgs.stdenvNoCC.mkDerivation {
         name = throw "Add your package name here";
