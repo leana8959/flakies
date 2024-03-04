@@ -15,7 +15,6 @@ jobs:
         run: |
           wget -q -O lmodern.zip "https://www.gust.org.pl/projects/e-foundry/latin-modern/download/lm2.004otf.zip"
           unzip -q -d fonts/ lmodern.zip
-
           wget -q -O iosevka.zip "https://github.com/be5invis/Iosevka/releases/download/v28.1.0/PkgTTC-Iosevka-28.1.0.zip"
           unzip -q -d fonts/ iosevka.zip
 
@@ -33,7 +32,7 @@ jobs:
       # # Enable only when you need to print it
       # - name: Fix printer issues
       #   run: |
-      #     apt-get update -y
+      #     apt-get update -y >/dev/null
       #     apt-get install ghostscript -y
       #     for f in *.pdf; do
       #       gs \
@@ -47,12 +46,14 @@ jobs:
         id: date
         run: echo "DATE=$(date +%Y-%m-%d-%Hh%M)" >> $GITHUB_ENV
 
+      - name: Prepare release folder
+        run: |
+          mkdir -p dist/release/
+          mv printable_*.pdf dist/release/
+
       - name: Release
-        uses: akkuman/gitea-release-action@v1
-        env:
-          NODE_OPTIONS: '--experimental-fetch' # if nodejs < 18
+        uses: https://git.earth2077.fr/leana/forgejo-release@fork
         with:
-          name: "${{ env.DATE }}"
-          tag_name: "${{ env.DATE }}"
-          files: |-
-            *.pdf
+          direction: upload
+          architecture: arm64
+          tag: "${{ env.DATE }}"
