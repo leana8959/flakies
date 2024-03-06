@@ -1,0 +1,25 @@
+compile:
+	#!/usr/bin/env bash
+	for f in *.typ; do
+		typst compile "$f"
+	done
+
+compileAndFix: compile
+	#!/usr/bin/env bash
+	for f in *.pdf; do
+		SRC="$f"
+		DST="${f%.pdf}"_patched.pdf
+		gs -o "$DST" \
+			-sDEVICE=pdfwrite \
+			-dPDFSETTINGS=/prepress \
+			"$SRC"
+		mv "$DST" "$SRC"
+	done
+
+sioyek: compile
+	sioyek main.pdf &
+	typst watch main.typ
+
+skim: compile
+	open -a /Applications/Skim.app main.pdf
+	typst watch main.typ
