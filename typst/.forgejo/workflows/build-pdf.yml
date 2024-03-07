@@ -7,49 +7,20 @@ permissions:
 jobs:
   build:
     runs-on: docker
+    container: leana8959/nix-runner
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Download fonts
+      - name: Build
         run: |
-          wget -q -O lmodern.zip "https://www.gust.org.pl/projects/e-foundry/latin-modern/download/lm2.004otf.zip"
-          unzip -q -d fonts/ lmodern.zip
-          wget -q -O iosevka.zip "https://github.com/be5invis/Iosevka/releases/download/v28.1.0/PkgTTC-Iosevka-28.1.0.zip"
-          unzip -q -d fonts/ iosevka.zip
-
-      - name: Typst
-        # uses: lvignoli/typst-action@main
-        # waiting for PR to be merged
-        uses: leana8959/typst-action@main
-        with:
-          options: |
-            --font-path
-            fonts
-          source_file: |
-            main.typ
-
-      # # Enable only when you need to print it
-      # - name: Fix printer issues
-      #   run: |
-      #     apt-get update -y >/dev/null
-      #     apt-get install ghostscript -y
-      #     for f in *.pdf; do
-      #       gs \
-      #           -o "printable_$f" \
-      #           -sDEVICE=pdfwrite \
-      #           -dPDFSETTINGS=/prepress \
-      #           "$f"
-      #     done
+          nix build
+          mkdir -p dist/release/
+          mv ./result/*.pdf dist/release/
 
       - name: Get current date
         id: date
         run: echo "DATE=$(date +%Y-%m-%d-%Hh%M)" >> $GITHUB_ENV
-
-      - name: Prepare release folder
-        run: |
-          mkdir -p dist/release/
-          mv printable_*.pdf dist/release/
 
       - name: Release
         uses: https://git.earth2077.fr/leana/forgejo-release@fork
