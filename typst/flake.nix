@@ -27,6 +27,7 @@
         pkgs.sioyek
         pkgs.ghostscript
         pkgs.typstfmt
+        pkgs.just
       ];
 
       fonts = with pkgs; [
@@ -47,19 +48,37 @@
           wrapProgram $out/bin/typst --append-flags "${font-paths}"
         '';
       };
+
+      docs = pkgs.stdenvNoCC.mkDerivation {
+        pname = "typst-document";
+        version = "0.0";
+        src = ./.;
+        nativeBuildInputs = tools;
+
+        buildPhase = ''
+          just compileAndFix
+        '';
+
+        installPhase = ''
+          mkdir -p $out
+          cp *.pdf "$out/"
+        '';
+      };
+
+      copy-script = pkgs.writeShellApplication {
+        name = "copy-script";
+        runtimeInputs = tools ++ [docs];
+        text = ''
+          cp ${docs}/*.pdf .
+        '';
+      };
     in {
       formatter = pkgs.alejandra;
 
       devShell = pkgs.mkShellNoCC {packages = tools;};
 
-      packages.default = pkgs.stdenvNoCC.mkDerivation {
-        name = throw "Add your package name here";
-        src = ./.;
-        nativeBuildInputs = tools;
-        installPhase = ''
-          mkdir -p $out
-          install main.pdf $out/
-        '';
-      };
+      packages.default = docs;
+
+      apps.buildLocal = flake-utils.lib.mkApp {drv = copy-script;};
     });
 }
