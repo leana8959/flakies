@@ -6,8 +6,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     nixunstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    # FIXME: fix ref before merge
-    flakies.url = "git+https://git.earth2077.fr/leana/flakies?ref=typst_nix";
+    flakies.url = "git+https://git.earth2077.fr/leana/flakies";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
