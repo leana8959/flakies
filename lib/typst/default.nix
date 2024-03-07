@@ -1,6 +1,7 @@
 {pkgs}: {
   src,
   documentName ? "typst-document",
+  fonts ? with pkgs; [iosevka lmodern cascadia-code],
 }: let
   tools = with pkgs; [
     typst-wrapped
@@ -11,12 +12,6 @@
     ghostscript
     typstfmt
     just
-  ];
-
-  fonts = with pkgs; [
-    iosevka
-    lmodern
-    cascadia-code
   ];
 
   typst-wrapped = pkgs.symlinkJoin {
