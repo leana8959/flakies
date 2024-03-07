@@ -6,6 +6,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     nixunstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    flakies.url = "git+https://git.earth2077.fr/leana/flakies";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -13,53 +14,30 @@
     self,
     nixpkgs,
     nixunstable,
+    flakies,
     flake-utils,
   }:
     flake-utils.lib.eachDefaultSystem (system: let
-      pkgs = import nixpkgs {inherit system;};
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [
+          (final: prev: {
+            typst = unstable.typst;
+          })
+        ];
+      };
       unstable = import nixunstable {inherit system;};
 
-      tools = [
-        typst-wrapped
-        # TODO: https://github.com/nvarner/typst-lsp/pull/360
-        # add the same thing for typst-lsp
-        pkgs.typst-lsp
-        pkgs.sioyek
-        pkgs.ghostscript
-        pkgs.typstfmt
-      ];
-
-      fonts = with pkgs; [
-        iosevka
-        lmodern
-        cascadia-code
-      ];
-
-      typst-wrapped = pkgs.symlinkJoin {
-        name = "typst";
-        paths = [unstable.typst]; # Get the latest features !
-        buildInputs = fonts;
-        nativeBuildInputs = [pkgs.makeWrapper];
-        postBuild = let
-          # Create multiple flags, each points to a fonts folder of a derivation
-          font-paths = builtins.concatStringsSep " " (map (p: "--font-path ${p}") fonts);
-        in ''
-          wrapProgram $out/bin/typst --append-flags "${font-paths}"
-        '';
+      typstLib = flakies.lib.typst {inherit pkgs;} {
+        src = ./.;
       };
     in {
       formatter = pkgs.alejandra;
 
-      devShell = pkgs.mkShellNoCC {packages = tools;};
+      devShells.default = typstLib.typstDevShell;
 
-      packages.default = pkgs.stdenvNoCC.mkDerivation {
-        name = throw "Add your package name here";
-        src = ./.;
-        nativeBuildInputs = tools;
-        installPhase = ''
-          mkdir -p $out
-          install main.pdf $out/
-        '';
-      };
+      packages.default = typstLib.typstDerivation;
+
+      apps.buildLocal = typstLib.typstBuildLocal;
     });
 }
