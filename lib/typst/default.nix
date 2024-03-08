@@ -2,6 +2,12 @@
   src,
   documentName ? "typst-document",
   fonts ? with pkgs; [iosevka lmodern cascadia-code],
+  typstPackages ?
+    pkgs.fetchgit {
+      url = "https://github.com/typst/packages";
+      rev = "aac865d4463dd00d7bafc05f31362db27b054309";
+      hash = "sha256-Sj/1oICBwKiaBw9HWc81Z8WumkdPFkWKucjeI3kxUp4=";
+    },
 }: let
   tools = with pkgs; [
     typst-wrapped
@@ -28,16 +34,41 @@
     '';
   };
 
+  typst-pkgs-src = "${typstPackages}/packages";
+
+  typst-package-cache = pkgs.stdenvNoCC.mkDerivation {
+    name = "typst-packages-cache";
+    src = typst-pkgs-src;
+    dontBuild = true;
+    installPhase = let
+      package-path =
+        if pkgs.stdenvNoCC.isLinux
+        then "/typst/packages"
+        else "/Library/Caches/typst/packages";
+    in ''
+      mkdir -p "$out${package-path}"
+      cp -LR --reflink=auto "$src"/* "$out${package-path}"
+    '';
+  };
+
   docs = pkgs.stdenvNoCC.mkDerivation {
     pname = documentName;
     version = "0.0";
     inherit src;
-    nativeBuildInputs = tools;
+    nativeBuildInputs = tools ++ [pkgs.bash];
 
-    buildPhase = ''
-      # Hack for the package downloading
-      mkdir -p fakehome/
-      HOME=./fakehome
+    buildPhase = let
+      where-cache-is =
+        if pkgs.stdenvNoCC.isLinux
+        then "XDG_CACHE_HOME"
+        else "HOME";
+    in ''
+      # fix justfile shebang
+      sed -i 's|#!/usr/bin/env \w*sh|#!${pkgs.bash}/bin/bash|g' justfile
+
+      # export cache directory
+      export ${where-cache-is}=${typst-package-cache}
+
       just compileAndFix
     '';
 
