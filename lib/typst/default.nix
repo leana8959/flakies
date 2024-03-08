@@ -1,6 +1,10 @@
-{pkgs}: {
+{
+  pkgs,
+  # Path of the derivation
   src,
+  # Name of the fderivation
   documentName ? "typst-document",
+  typst ? pkgs.typst,
   fonts ? with pkgs; [iosevka lmodern cascadia-code],
   typstPackages ?
     pkgs.fetchgit {
@@ -22,7 +26,7 @@
 
   typst-wrapped = pkgs.symlinkJoin {
     name = "typst";
-    paths = [pkgs.typst];
+    paths = [typst];
     buildInputs = fonts;
     nativeBuildInputs = [pkgs.makeWrapper];
     postBuild = let
