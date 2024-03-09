@@ -6,16 +6,16 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     nixunstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    flakies.url = "git+https://git.earth2077.fr/leana/flakies";
     flake-utils.url = "github:numtide/flake-utils";
+    flakies.url = "git+https://git.earth2077.fr/leana/flakies";
   };
 
   outputs = {
     self,
     nixpkgs,
     nixunstable,
-    flakies,
     flake-utils,
+    flakies,
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {
@@ -28,7 +28,7 @@
       };
       unstable = import nixunstable {inherit system;};
 
-      typstLib = flakies.lib.typst {inherit pkgs;} {
+      typstLib = pkgs.callPackage flakies.lib.typst {
         src = ./.;
       };
     in {

@@ -1,6 +1,6 @@
 {
   pkgs,
-  # Path of the derivation
+  # Path of the source folder
   src,
   # Name of the fderivation
   documentName ? "typst-document",
