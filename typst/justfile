@@ -19,9 +19,9 @@ compileAndFix: compile
 	done
 
 sioyek target=defaultTarget: compile
-	sioyek "{{ target }}" &
+	sioyek "{{ without_extension(target) }}.pdf" &
 	typst watch "{{ target }}"
 
 skim target=defaultTarget: compile
-	open -a /Applications/Skim.app "{{ target }}"
+	open -a /Applications/Skim.app "{{ without_extension(target) }}.pdf"
 	typst watch "{{ target }}"
