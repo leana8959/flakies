@@ -2,8 +2,6 @@
   pkgs,
   # Path of the source folder
   src,
-  # Name of the fderivation
-  documentName ? "typst-document",
   typst ? pkgs.typst,
   fonts ? with pkgs; [iosevka lmodern cascadia-code],
   typstPackages ?
@@ -56,7 +54,7 @@
   };
 
   docs = pkgs.stdenvNoCC.mkDerivation {
-    pname = documentName;
+    pname = "typst-document";
     version = "0.0";
     inherit src;
     nativeBuildInputs = tools ++ [pkgs.bash];

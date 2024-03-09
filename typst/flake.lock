@@ -18,6 +18,21 @@
         "type": "github"
       }
     },
+    "flakies": {
+      "locked": {
+        "lastModified": 1709967080,
+        "narHash": "sha256-zn4DBbalPKknnxOoFvTRbaOY8AJk8ft1eXM9uOzA3e0=",
+        "ref": "refs/heads/mistress",
+        "rev": "e7bf20874a0dd3c7686f5d175dedc0e2815e5961",
+        "revCount": 85,
+        "type": "git",
+        "url": "https://git.earth2077.fr/leana/flakies"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.earth2077.fr/leana/flakies"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1704420045,
@@ -53,6 +68,7 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
+        "flakies": "flakies",
         "nixpkgs": "nixpkgs",
         "nixunstable": "nixunstable"
       }
