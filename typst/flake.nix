@@ -18,18 +18,12 @@
     flakies,
   }:
     flake-utils.lib.eachDefaultSystem (system: let
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [
-          (final: prev: {
-            typst = unstable.typst;
-          })
-        ];
-      };
+      pkgs = import nixpkgs { inherit system; };
       unstable = import nixunstable {inherit system;};
 
       typstLib = pkgs.callPackage flakies.lib.typst {
         src = ./.;
+        typst = unstable.typst;
       };
     in {
       formatter = pkgs.alejandra;
