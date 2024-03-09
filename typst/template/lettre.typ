@@ -15,7 +15,7 @@
   // Settings
   set document(title: title, author: author)
   set par(justify: true)
-  set text(size: 14pt, lang: lang, font: "Latin Modern Roman")
+  set text(size: 14pt, lang: lang, font: "New Computer Modern")
   // set text(size: 14pt, lang: lang, font: "Sans Forgetica") // For proofreading
 
   show link: it => underline(text(style: "italic", fill: rgb("#4E7BD6"), it))

@@ -3,7 +3,7 @@
   # Path of the source folder
   src,
   typst ? pkgs.typst,
-  fonts ? with pkgs; [iosevka lmodern cascadia-code],
+  fonts ? with pkgs; [iosevka lmodern cm_unicode],
   typstPackages ?
     pkgs.fetchgit {
       url = "https://github.com/typst/packages";
