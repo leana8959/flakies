@@ -1,3 +1,5 @@
+defaultTarget := 'main.typ'
+
 compile:
 	#!/usr/bin/env bash
 	for f in *.typ; do
@@ -16,10 +18,10 @@ compileAndFix: compile
 		mv "$DST" "$SRC"
 	done
 
-sioyek: compile
-	sioyek main.pdf &
-	typst watch main.typ
+sioyek target=defaultTarget: compile
+	sioyek "{{ target }}" &
+	typst watch "{{ target }}"
 
-skim: compile
-	open -a /Applications/Skim.app main.pdf
-	typst watch main.typ
+skim target=defaultTarget: compile
+	open -a /Applications/Skim.app "{{ target }}"
+	typst watch "{{ target }}"
