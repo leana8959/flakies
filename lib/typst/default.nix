@@ -1,8 +1,6 @@
 {
   pkgs,
-  # Path of the source folder
   src,
-  typst ? pkgs.typst,
   fonts ? with pkgs; [iosevka lmodern cm_unicode],
   typstPackages ?
     pkgs.fetchgit {
@@ -15,16 +13,16 @@
     typst-wrapped
     # TODO: https://github.com/nvarner/typst-lsp/pull/360
     # add the same thing for typst-lsp
-    typst-lsp
-    sioyek
     ghostscript
-    typstfmt
     just
+    typst-lsp
+    typstfmt
+    sioyek
   ];
 
   typst-wrapped = pkgs.symlinkJoin {
     name = "typst";
-    paths = [typst];
+    paths = [pkgs.typst];
     buildInputs = fonts;
     nativeBuildInputs = [pkgs.makeWrapper];
     postBuild = let
@@ -89,6 +87,7 @@
   };
 in {
   typstDevShell = pkgs.mkShellNoCC {
+    name = "typst-shell";
     packages = tools;
   };
 
