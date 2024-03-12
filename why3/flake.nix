@@ -1,7 +1,7 @@
 {
   description = ''
     why3 ide 1.6.0 https://www.why3.org/
-    - alt-ergo 2.5.2
+    - alt-ergo 2.4.1
     - cvc4 1.8
     - z3 4.12.2
   '';
