@@ -18,8 +18,10 @@
       pkgs = nixpkgs.legacyPackages.${system};
       unstable = nixunstable.legacyPackages.${system};
     in {
-      devShell = pkgs.mkShell {
-        formatter = pkgs.alejandra;
+      formatter = pkgs.alejandra;
+
+      devShells.default = pkgs.mkShell {
+        JAVA_HOME = pkgs.jdk;
         packages = [
           pkgs.jdk
           pkgs.gradle
