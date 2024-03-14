@@ -20,7 +20,8 @@
     in {
       formatter = pkgs.alejandra;
 
-      devShell = pkgs.mkShell {
+      devShells.default = pkgs.mkShell {
+        JAVA_HOME = pkgs.jdk;
         packages = with pkgs; [
           sbt
           ammonite
