@@ -1,15 +1,34 @@
 {
-  pkgs,
   src,
-  fonts ? with pkgs; [iosevka lmodern cm_unicode],
+  # tools,
+  typst,
+  ghostscript,
+  just,
+  typst-lsp,
+  typstfmt,
+  sioyek,
+  bash,
+  # fonts
+  iosevka,
+  lmodern,
+  cm_unicode,
+  fonts ? [iosevka lmodern cm_unicode],
+  # typst packages
   typstPackages ?
-    pkgs.fetchgit {
+    fetchgit {
       url = "https://github.com/typst/packages";
       rev = "aac865d4463dd00d7bafc05f31362db27b054309";
       hash = "sha256-Sj/1oICBwKiaBw9HWc81Z8WumkdPFkWKucjeI3kxUp4=";
     },
+  # utils
+  fetchgit,
+  symlinkJoin,
+  stdenvNoCC,
+  mkShellNoCC,
+  makeWrapper,
+  writeShellApplication,
 }: let
-  tools = with pkgs; [
+  tools = [
     typst-wrapped
     # TODO: https://github.com/nvarner/typst-lsp/pull/360
     # add the same thing for typst-lsp
@@ -20,11 +39,11 @@
     sioyek
   ];
 
-  typst-wrapped = pkgs.symlinkJoin {
+  typst-wrapped = symlinkJoin {
     name = "typst";
-    paths = [pkgs.typst];
+    paths = [typst];
     buildInputs = fonts;
-    nativeBuildInputs = [pkgs.makeWrapper];
+    nativeBuildInputs = [makeWrapper];
     postBuild = let
       # Create multiple flags, each points to a fonts folder of a derivation
       font-paths = builtins.concatStringsSep " " (map (p: "--font-path ${p}") fonts);
@@ -36,13 +55,13 @@
 
   typst-pkgs-src = "${typstPackages}/packages";
 
-  typst-package-cache = pkgs.stdenvNoCC.mkDerivation {
+  typst-package-cache = stdenvNoCC.mkDerivation {
     name = "typst-packages-cache";
     src = typst-pkgs-src;
     dontBuild = true;
     installPhase = let
       package-path =
-        if pkgs.stdenvNoCC.isLinux
+        if stdenvNoCC.isLinux
         then "/typst/packages"
         else "/Library/Caches/typst/packages";
     in ''
@@ -51,20 +70,20 @@
     '';
   };
 
-  docs = pkgs.stdenvNoCC.mkDerivation {
+  docs = stdenvNoCC.mkDerivation {
     pname = "typst-document";
     version = "0.0";
     inherit src;
-    nativeBuildInputs = tools ++ [pkgs.bash];
+    nativeBuildInputs = tools ++ [bash];
 
     buildPhase = let
       where-cache-is =
-        if pkgs.stdenvNoCC.isLinux
+        if stdenvNoCC.isLinux
         then "XDG_CACHE_HOME"
         else "HOME";
     in ''
       # fix justfile shebang
-      sed -i 's|#!/usr/bin/env \w*sh|#!${pkgs.bash}/bin/bash|g' justfile
+      sed -i 's|#!/usr/bin/env \w*sh|#!${bash}/bin/bash|g' justfile
 
       # export cache directory
       export ${where-cache-is}=${typst-package-cache}
@@ -78,7 +97,7 @@
     '';
   };
 
-  copy-script = pkgs.writeShellApplication {
+  copy-script = writeShellApplication {
     name = "copy-script";
     runtimeInputs = tools ++ [docs];
     text = ''
@@ -86,7 +105,7 @@
     '';
   };
 in {
-  typstDevShell = pkgs.mkShellNoCC {
+  typstDevShell = mkShellNoCC {
     name = "typst-shell";
     packages = tools;
   };

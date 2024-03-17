@@ -21,11 +21,10 @@
       pkgs = import nixpkgs {inherit system;};
       unstable = import nixunstable {inherit system;};
 
-      typstLib =
-        pkgs.lib.callPackageWith (pkgs // {inherit (unstable) typst;})
-        flakies.lib.typst {
-          src = ./.;
-        };
+      typstLib = pkgs.callPackage flakies.lib.typst {
+        src = ./.;
+        inherit (unstable) typst;
+      };
     in {
       formatter = pkgs.alejandra;
 
