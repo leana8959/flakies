@@ -5,8 +5,6 @@
   ghostscript,
   typst-lsp,
   typstfmt,
-  just,
-  bash,
   # fonts
   iosevka,
   lmodern,
@@ -32,7 +30,6 @@
     # TODO: https://github.com/nvarner/typst-lsp/pull/360
     # add the same thing for typst-lsp
     ghostscript
-    just
     typst-lsp
     typstfmt
   ];
@@ -72,7 +69,7 @@
     pname = "typst-document";
     version = "0.0";
     inherit src;
-    nativeBuildInputs = tools ++ [bash];
+    nativeBuildInputs = tools;
 
     buildPhase = let
       where-cache-is =
@@ -80,13 +77,25 @@
         then "XDG_CACHE_HOME"
         else "HOME";
     in ''
-      # fix justfile shebang
-      sed -i 's|#!/usr/bin/env \w*sh|#!${bash}/bin/bash|g' justfile
-
       # export cache directory
       export ${where-cache-is}=${typst-package-cache}
 
-      just compileAndFix
+      # compile
+      for f in *.typ; do
+          typst compile "$f"
+      done
+
+      # fix
+      for f in *.pdf; do
+          SRC="$f"
+          DST="''${f%.pdf}"_patched.pdf
+          gs \
+              -o "$DST" \
+              -sDEVICE=pdfwrite \
+              -dPDFSETTINGS=/prepress \
+              "$SRC"
+          mv "$DST" "$SRC"
+      done
     '';
 
     installPhase = ''
