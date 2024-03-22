@@ -3,10 +3,9 @@
   # tools,
   typst,
   ghostscript,
-  just,
   typst-lsp,
   typstfmt,
-  sioyek,
+  just,
   bash,
   # fonts
   iosevka,
@@ -36,7 +35,6 @@
     just
     typst-lsp
     typstfmt
-    sioyek
   ];
 
   typst-wrapped = symlinkJoin {
